@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  height: 100vh;
+  color: #353c42;
+  font-size: 14px;
+  font-family: "Inter", sans-serif !important;
+  background: #eff0f1;
+}
+body {
+  font-size: 14px;
+  line-height: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  font-family: "Inter", sans-serif !important;
+}
