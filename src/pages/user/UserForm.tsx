@@ -15,9 +15,8 @@ type UserFormProps = {
   userData: UserType | null;
   onClose: () => void;
   onSubmit: (values: any) => void;
-  loading:boolean;
-  userLoading:boolean
-
+  loading: boolean;
+  userLoading: boolean;
 };
 
 const UserForm: React.FC<UserFormProps> = ({
@@ -26,21 +25,19 @@ const UserForm: React.FC<UserFormProps> = ({
   onClose,
   onSubmit,
   loading,
-  userLoading
+  userLoading,
 }) => {
   const [form] = Form.useForm();
 
+  // Submit funtion
   const handleSubmit = (values: any) => {
-    console.log("Form values:", values);
     onSubmit(values);
     form.resetFields();
   };
-
+  // Close funtion
   const handleClose = () => {
-    
     onClose();
     form.resetFields();
-
   };
   useEffect(() => {
     if (userData) {
@@ -54,7 +51,7 @@ const UserForm: React.FC<UserFormProps> = ({
   }, [userData, form]);
   return (
     <Drawer
-     loading={userLoading}
+      loading={userLoading}
       title={
         <div className="flex flex-row justify-between items-center">
           <div className="text-lg font-semibold text-black">Edit User</div>
@@ -107,7 +104,7 @@ const UserForm: React.FC<UserFormProps> = ({
                 },
               ]}
             >
-              <Input placeholder="Emma"  />
+              <Input placeholder="Emma" />
             </Form.Item>
           </Col>
 

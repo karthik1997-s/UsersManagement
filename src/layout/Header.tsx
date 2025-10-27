@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const handleLogout = () => {
     mutate(undefined, {
       onSuccess: (res) => {
-        console.log("res",res)
+    
         if (res) {
           message.success("Logout successfully");
           navigate("/login")

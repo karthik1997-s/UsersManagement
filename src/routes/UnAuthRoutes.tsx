@@ -3,9 +3,7 @@ import React from "react";
 import { getToken } from "../utills/auth";
 
 const UnAuthRoutes: React.FC = () => {
-  // const validUser: boolean | null = getToken(); // assuming getToken returns string or null
-  const validUser: any = getToken()// assuming getToken returns string or null
-
+  const validUser: any = getToken();
 
   return validUser ? <Navigate to="/" /> : <Outlet />;
 };
