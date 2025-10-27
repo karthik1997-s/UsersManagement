@@ -221,11 +221,13 @@ const UserList: React.FC = () => {
             rowKey="id"
             pagination={false}
             scroll={{ y: "calc(100vh - 380px)" }}
+            style={{ minHeight: "calc(100vh - 380px)" }}
+
             locale={{
               emptyText: (
                 <div className="flex flex-col justify-center items-center !h-full text-gray-400">
                   <Empty description=" No Users Found"/>
-                 
+
                 </div>
               ),
             }}
