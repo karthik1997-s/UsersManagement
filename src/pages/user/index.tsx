@@ -221,6 +221,13 @@ const UserList: React.FC = () => {
             rowKey="id"
             pagination={false}
             scroll={{ y: "calc(100vh - 380px)" }}
+            locale={{
+              emptyText: (
+                <div className="flex flex-col justify-center items-center h-full text-gray-400">
+                  No Users Found
+                </div>
+              ),
+            }}
           />
         ) : (
           <UserCardView
