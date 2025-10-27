@@ -107,7 +107,7 @@ const UserForm: React.FC<UserFormProps> = ({
                 },
               ]}
             >
-              <Input placeholder="Emma" size="large" />
+              <Input placeholder="Emma"  />
             </Form.Item>
           </Col>
 
