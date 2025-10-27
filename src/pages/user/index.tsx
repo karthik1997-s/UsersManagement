@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table, Button, Input, Avatar, Space, Segmented, App } from "antd";
+import { Table, Button, Input, Avatar, Space, Segmented, App, Empty } from "antd";
 import { TableOutlined, AppstoreOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import CustomPagination from "../../components/Pagination";
@@ -223,8 +223,9 @@ const UserList: React.FC = () => {
             scroll={{ y: "calc(100vh - 380px)" }}
             locale={{
               emptyText: (
-                <div className="flex flex-col justify-center items-center h-full text-gray-400">
-                  No Users Found
+                <div className="flex flex-col justify-center items-center !h-full text-gray-400">
+                  <Empty description=" No Users Found"/>
+                 
                 </div>
               ),
             }}
