@@ -1,5 +1,14 @@
-import { useState } from "react";
-import { Table, Button, Input, Avatar, Space, Segmented, App, Empty } from "antd";
+import { useEffect, useState } from "react";
+import {
+  Table,
+  Button,
+  Input,
+  Avatar,
+  Space,
+  Segmented,
+  App,
+  Empty,
+} from "antd";
 import { TableOutlined, AppstoreOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import CustomPagination from "../../components/Pagination";
@@ -28,27 +37,29 @@ const UserList: React.FC = () => {
   const { modal, message } = App.useApp();
 
   const [viewMode, setViewMode] = useState<"table" | "card">("table");
+  const [filteredUsers, setFilteredUsers] = useState<UserType[]>([]);
   const [searchText, setSearchText] = useState("");
   const [pagination, setPagination] = useState({ page: 1, per_page: 5 });
-  const [editState, setEditState] = useState<{ open: boolean; id: number | null }>({
+  const [editState, setEditState] = useState<{
+    open: boolean;
+    id: number | null;
+  }>({
     open: false,
     id: null,
   });
 
-
-  // Fetch user list Query 
+  // Fetch user list Query
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["userList", pagination],
     queryFn: () => userList(pagination),
   });
 
   // Fetch single user details Query
-  const { data: userData , isFetching:userLoading } = useQuery({
+  const { data: userData, isFetching: userLoading } = useQuery({
     queryKey: ["userDetails", editState.id],
     queryFn: () => getUser(editState.id),
     enabled: !!editState.id,
   });
-
 
   // Update user Mutation
   const updateUserMutation = useMutation({
@@ -81,7 +92,6 @@ const UserList: React.FC = () => {
     },
     onError: () => message.error("Failed to delete user"),
   });
-
 
   // Open edit form
   const handleEdit = (record: UserType) => {
@@ -123,7 +133,6 @@ const UserList: React.FC = () => {
   // Close modal form
   const handleCloseForm = () => setEditState({ open: false, id: null });
 
-
   const columns: ColumnsType<UserType> = [
     {
       title: "",
@@ -148,7 +157,7 @@ const UserList: React.FC = () => {
       key: "first_name",
       width: 100,
     },
-    
+
     {
       title: "Last Name",
       dataIndex: "last_name",
@@ -176,7 +185,31 @@ const UserList: React.FC = () => {
       ),
     },
   ];
+  const handleSearch = (value: string) => {
+    setSearchText(value);
 
+    const allUsers = data?.data?.data || [];
+
+    if (!value.trim()) {
+      setFilteredUsers(allUsers);
+      return;
+    }
+
+    const search = value.toLowerCase();
+
+    const filtered = allUsers.filter(
+      (user: any) =>
+        user.first_name.toLowerCase().includes(search) ||
+        user.last_name.toLowerCase().includes(search) ||
+        user.email.toLowerCase().includes(search)
+    );
+
+    setFilteredUsers(filtered);
+  };
+
+  useEffect(() => {
+    setFilteredUsers(data?.data?.data || []);
+  }, [data]);
 
   return (
     <div>
@@ -188,8 +221,8 @@ const UserList: React.FC = () => {
             <Search
               placeholder="Search users..."
               value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onSearch={setSearchText}
+              onChange={(e) => handleSearch(e.target.value)}
+              onSearch={handleSearch}
               style={{ width: 200 }}
             />
             <Button
@@ -216,25 +249,23 @@ const UserList: React.FC = () => {
         {viewMode === "table" ? (
           <Table
             columns={columns}
-            dataSource={data?.data?.data}
+            dataSource={filteredUsers}
             loading={isFetching}
             rowKey="id"
             pagination={false}
             scroll={{ y: "calc(100vh - 380px)" }}
             style={{ minHeight: "calc(100vh - 380px)" }}
-
             locale={{
               emptyText: (
                 <div className="flex flex-col justify-center items-center !h-full text-gray-400">
-                  <Empty description=" No Users Found"/>
-
+                  <Empty description=" No Users Found" />
                 </div>
               ),
             }}
           />
         ) : (
           <UserCardView
-            users={data?.data?.data}
+            users={filteredUsers}
             onEdit={handleEdit}
             onDelete={handleDelete}
             loading={isFetching}

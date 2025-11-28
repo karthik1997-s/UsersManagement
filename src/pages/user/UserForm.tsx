@@ -54,7 +54,7 @@ const UserForm: React.FC<UserFormProps> = ({
       loading={userLoading}
       title={
         <div className="flex flex-row justify-between items-center">
-          <div className="text-lg font-semibold text-black">Edit User</div>
+          <div className="text-lg font-semibold text-black"> {userData?.id ? "Edit" : "Add"} User</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <CloseOutlined className="text-base" />
           </div>

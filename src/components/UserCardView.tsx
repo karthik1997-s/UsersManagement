@@ -23,7 +23,7 @@ const UserCardView: React.FC<UserCardViewProps> = ({
   loading,
 }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 h-[calc(100vh-320px)] overflow-x-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 h-[calc(100vh-335px)] overflow-x-auto">
       {loading
         ? Array.from({ length: 6 }).map((_, index) => (
             <Card key={index} className="text-center">
