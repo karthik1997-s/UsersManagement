@@ -75,10 +75,13 @@ const UserList: React.FC = () => {
   // Create new user Mutation
   const createUserMutation = useMutation({
     mutationFn: createUser,
-    onSuccess: () => {
+    onSuccess: (res:any) => {
+      console.log("res",res)
       message.success("User created successfully");
       handleCloseForm();
-      refetch();
+      const data = [res?.data]
+      setFilteredUsers((prev)=>[...data,...prev,])
+      // refetch();
     },
     onError: () => message.error("Failed to create user"),
   });
@@ -88,7 +91,7 @@ const UserList: React.FC = () => {
     mutationFn: deleteUser,
     onSuccess: () => {
       message.success("User deleted successfully");
-      refetch();
+      // refetch();
     },
     onError: () => message.error("Failed to delete user"),
   });
@@ -111,7 +114,12 @@ const UserList: React.FC = () => {
         new Promise((resolve) => {
           deleteUserMutation.mutate(record.id, {
             onSettled: () => resolve(true),
-          });
+            onSuccess:(res:any)=>{
+              const deletedData = filteredUsers.filter((x:any)=> x.id !== record?.id)
+              setFilteredUsers(deletedData)
+            }
+          },);
+          
         }),
     });
   };
